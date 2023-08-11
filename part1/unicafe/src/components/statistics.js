@@ -1,4 +1,8 @@
 import { REVIEWS } from "./button";
+import Total from "./total";
+import Average from './average';
+import Positive from './positive';
+
 const Statistics = ({ good, neutral, bad }) => {
   return (
     <>
@@ -6,6 +10,9 @@ const Statistics = ({ good, neutral, bad }) => {
       {REVIEWS.GOOD} {good}<br/>
       {REVIEWS.NEUTRAL} {neutral}<br/>
       {REVIEWS.BAD} {bad}< br/>
+      <Total good={good} neutral={neutral} bad={bad} />
+      <Average good={good} neutral={neutral} bad={bad} />
+      <Positive good={good} neutral={neutral} bad={bad} />
     </>
   )
 }
