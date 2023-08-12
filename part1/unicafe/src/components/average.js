@@ -7,8 +7,9 @@ const Average = ({good, bad, neutral}) => {
   const average = (good - bad) / total;
   return (
     <>
-    Average {average} <br />
+    <td>Average</td><td>{average}</td>
     </>
+    
   )
 }
 

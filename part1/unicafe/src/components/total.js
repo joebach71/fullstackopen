@@ -2,7 +2,7 @@ const Total = ({good, bad, neutral}) => {
   const total = good + neutral + bad;
   return (
     <>
-    All {total} <br />
+    <td>All</td><td>{total}</td>
     </>
   )
 }

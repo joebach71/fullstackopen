@@ -4,7 +4,7 @@ const Positive = ({good, bad, neutral}) => {
   const positive = good / total * 100;
   return (
     <>
-    Positive {positive}% <br />
+    <td>Positive</td><td>{positive}</td>
     </>
   )
 }
