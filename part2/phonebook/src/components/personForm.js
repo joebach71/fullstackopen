@@ -1,32 +1,44 @@
 import { useState } from 'react';
 
 const PersonForm = (props) => {
-  const { persons, setPersons } = props;
+  const { persons, setPersons, create, update } = props;
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   
   const duplicatedName = () => {
-    const duplicate = persons.filter((person) => person.name === newName);
-    if (duplicate.length) return true;
-    return false;
+    const duplicate = persons.find((person) => person.name === newName);
+    return duplicate;
   }
 
-  const alertWarning = () => {
-    window.alert([`${newName} is already added to phonebook`]);
+  const alertConfirm = (person) => {
+    const result = window.confirm([`${person.name} is already added to phonebook, replace the old number with a new one?`]);
+    if (result) {
+      person.number = newNumber;
+      update(person.id, person).then((response) => {
+        const newPersons = persons.map((person) => {
+          if (person.id === response.id) return response;
+          return person;
+        });
+        setPersons(newPersons);
+      });
+    }
     setNewName('');
   }
 
   const addNewPhone = (event) => {
     event.preventDefault();
-    if (duplicatedName()) return alertWarning();
+    const dup = duplicatedName();
+    if (dup) return alertConfirm(dup);
     const personObject = {
       name: newName,
       number: newNumber
     };
-    const newPersons = persons.concat(personObject);
-    setPersons(newPersons);
-    setNewName('');
-    setNewNumber('');
+    create(personObject).then((date) => {
+      const newPersons = persons.concat(date);
+      setPersons(newPersons);
+      setNewName('');
+      setNewNumber('');  
+    })
   }
 
   const handleChangeInputName = (event) => {
