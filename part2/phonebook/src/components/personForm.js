@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { NOTIFICATION_TYPE } from './notification';
 
 const PersonForm = (props) => {
-  const { persons, setPersons, create, update } = props;
+  const { persons, setPersons, create, update, setMessage } = props;
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   
@@ -33,11 +34,22 @@ const PersonForm = (props) => {
       name: newName,
       number: newNumber
     };
-    create(personObject).then((date) => {
-      const newPersons = persons.concat(date);
+    create(personObject)
+    .then((data) => {
+      setMessage({
+        text: `Added ${data.name}`,
+        type: NOTIFICATION_TYPE.INFO
+      });
+      const newPersons = persons.concat(data);
       setPersons(newPersons);
       setNewName('');
-      setNewNumber('');  
+      setNewNumber('');
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000);
+    })
+    .catch(error => {
+
     })
   }
 
