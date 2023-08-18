@@ -13,10 +13,10 @@ const App = () => {
   const [message, setMessage] = useState(null);
 
   const handleDeletePerson = (personId) => {
-    if (alertConfirm(personId)) {
+    const deleted = persons.find((person) => person.id === personId);
+    if (alertConfirm(deleted)) {
       personsServices.deleteById(personId)
       .then((data) => {
-        const deleted = persons.find((person) => person.id === personId);
         setMessage({
           text: `Deleted ${deleted.name}`,
           type: NOTIFICATION_TYPE.INFO
@@ -27,12 +27,25 @@ const App = () => {
           setMessage(null);
         }, 5000);
       })
-      .catch((e) => console.log('failed to delete', e));
+      .catch((e) => {
+        console.log('failed to delete', e);
+        setMessage({
+          text: `Information of ${deleted.name} has already been removed from server`,
+          type: NOTIFICATION_TYPE.ERROR,
+        });
+        // need to get latest persons and update
+        personsServices.getAll().then(data => {
+          setPersons(data)
+        });
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+      });
     }
   }
 
-  const alertConfirm = (id) => {
-    return window.confirm([`Are you sure you want to delete Person ${id} from phonebook?`]);
+  const alertConfirm = (person) => {
+    return window.confirm([`Are you sure you want to delete Person ${person.name} from phonebook?`]);
   }
 
   useEffect(() => {
