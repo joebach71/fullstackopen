@@ -27,7 +27,7 @@ function App() {
 
   useEffect(() => {
     if (value) {
-      const regExp = new RegExp(`^${value}`, 'i');
+      const regExp = new RegExp(`${value}`, 'i');
       const searched = countries.reduce((acc, item) => {
         if (regExp.test(item.name.common)) acc.push(item.name.common);
         return acc;
