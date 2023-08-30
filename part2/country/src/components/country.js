@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import CountryService from '../services/country';
 
-const Country = ({countryName}) => {
+const Country = ({countryName, display}) => {
   const [ country, setCountry ] = useState(null);
 
   useEffect(() => {
@@ -15,17 +15,17 @@ const Country = ({countryName}) => {
         console.log('getCountry Error', error);
         setCountry(null);
       });
-      console.log('countryDetail', country);  
     } else {
       setCountry(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countryName]);
 
-  if (!country) return (
-    <></>
+  if (!display) return (
+    ''
   );
   return (
+    display ?
     <div>
       <h2>{country.name.common}</h2>
       <div>capital: {country.capital[0]}</div>
@@ -39,6 +39,7 @@ const Country = ({countryName}) => {
       <img src={country.flags.png} alt={country.flags.alt} />
       </div>
     </div>
+    : ''
   )
 }
 

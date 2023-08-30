@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 
 import Countries from './components/countries';
-import Country from './components/country';
+// import Country from './components/country';
 import CountryService from './services/country';
 
 function App() {
   const [ value, setValue ] = useState('');
   const [ countries, setCountries ] = useState([]);
   const [ filtered, setFiltered ] = useState([]);
-  const [ countryName, setCountryName ] = useState('');
+  // const [ countryName, setCountryName ] = useState('');
 
   useEffect(() => {
     CountryService.getAll()
@@ -17,13 +17,13 @@ function App() {
     });
   }, []);
 
-  useEffect(() => {
-    if (filtered.length === 1) {
-      setCountryName(filtered[0]);
-    } else {
-      setCountryName('');
-    }
-  }, [filtered]);
+  // useEffect(() => {
+  //   if (filtered.length === 1) {
+  //     setCountryName(filtered[0]);
+  //   } else {
+  //     setCountryName('');
+  //   }
+  // }, [filtered]);
 
   useEffect(() => {
     if (value) {
@@ -45,7 +45,7 @@ function App() {
     <div className="App">
       find countries <input value={value} onChange={handleChangeInput} />
       <Countries countries={filtered} />
-      <Country countryName={countryName} />
+      {/* <Country countryName={countryName} /> */}
     </div>
   );
 }
